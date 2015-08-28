@@ -1,0 +1,12 @@
+<h1>WELCOME TO MATRIMONY</h1>
+
+<%= form_for :option do |f| %>
+	<table>
+		<tr>
+			<td> 
+			<%= link_to "Show Profile" %>
+			<%= link_to "Edit Profile", edit_profile_path(current_user.id) %>
+			<%= link_to "Simple Search", profile_search_path(current_user.id) %></td>
+		</tr>
+	</table>
+<% end %>

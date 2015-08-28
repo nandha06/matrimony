@@ -1,0 +1,19 @@
+<%= link_to "HOME", options_path %>
+<h1>Simple Search</h1>
+<%= form_tag profiles_path, :method => 'get' do %> 
+	<table>
+		<tr>
+			<td colspan="3"> <%= label_tag :Looking_for %> 
+			    <%= radio_button_tag :gender, 'male' %>
+				<%= label_tag :Groom %>
+				<%= radio_button_tag :gender, 'female' %>
+				<%= label_tag :Bride %>
+			</td>
+		</tr>
+		<tr>
+			<td> <%= label_tag :Age_from %> <%= text_field_tag :age_from, params[:age_from] %> </td>
+			<td> <%= label_tag :To %> <%= text_field_tag :age_to, params[:age_to] %> </td>
+			<td> <%= submit_tag "Search", :name => nil %> </td>
+		</tr>
+	</table>
+<% end %>

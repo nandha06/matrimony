@@ -1,0 +1,64 @@
+<%= link_to "HOME", options_path %>
+<h1>Edit Profile</h1>
+<%= csrf_meta_tags %>
+<%= form_for @user, :url => {:action => "update"} do |f| %>
+	<table>
+		<tr> <td colspan="2"> <%= current_user.email %></td></tr>
+		<tr>
+			<td> <%= f.label :Name %> </td>
+			<td> <%= f.text_field :user_name, :required => true %></td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Gender %> </td>
+			<td> <%= f.radio_button(:gender, "male") %>
+				<%= f.label(:gender_male, "Male") %>
+				<%= f.radio_button(:gender, "female") %>
+				<%= f.label(:gender_female, "Female") %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td> <%= f.label :Date_Of_Birth %></td>
+			<td> <%= f.text_field :date_of_birth, :required => true %>
+			</td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Age %></td>
+			<td> <%= f.text_field :age, :required => true %></td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Mobile_Number %></td>
+			<td> <%= f.text_field :phone_no, :required => true %></td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Religion %></td>
+			<td> <%= f.select(:religion_id, options_from_collection_for_select(Religion.all, 'id', 'rel_name', f.object.religion_id)) %>
+			</td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Caste %></td>
+			<td> <%= f.select(:caste_id, options_from_collection_for_select(Caste.all, 'id', 'caste_name', f.object.caste_id)) %>
+				
+			</td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Mother_tongue %></td>
+			<td> <%= f.select(:mother_tongue_id, options_from_collection_for_select(Language.all, 'id', 'lang_name', f.object.mother_tongue_id)) %>
+				
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="2"><div align="right"> <%= f.submit :"Submit" %></div></td>
+		</tr>
+
+	</table>
+<% end %>
+
+

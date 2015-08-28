@@ -1,0 +1,13 @@
+<h1>Profiles</h1>
+<table>
+	<% @user.each do |result| %>
+		<tr><td>Name :
+			<%= result.user_name %></td>
+			<td>Age : <%= result.age %>
+				Email : <%= result.email %>
+			</td>
+		</tr>
+	<% end %>
+		
+</table>
+

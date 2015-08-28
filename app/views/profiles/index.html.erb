@@ -1,0 +1,39 @@
+<%= link_to "BACK", profile_search_path(current_user.id) %>
+<%= link_to "HOME", options_path %>
+<h1>Profiles</h1>
+<table>
+	<% if (@user.empty?) %>
+		<tr><td><h3>No results found...</h3></td>
+		</tr>
+	<% else %>
+		<% @user.each do |result| %>
+			<tr>
+				<td><b>Name</b></td> 
+				<td> : <%= result.user_name %></td>
+			</tr>
+			<tr>
+				<td><b>Age</b></td>
+				<td> : <%= result.age %></td>
+			</tr>
+			<tr>
+				<td><b>Date Of Birth</b></td>
+				<td> : <%= result.date_of_birth %></td>
+			</tr>
+			<tr>
+				<td><b>Religion</b></td>
+				<td> : <%= result.religion_id %>
+			</td>
+			<tr>
+				<td><b>Caste</b></td>
+				<td> : <%= result.caste_id %>
+			</td>
+			<tr>
+				<td><b>Email</b><br><br></td>
+				<td> : <%= result.email %>
+					&nbsp &nbsp <b>Phone No</b> : <%= result.phone_no %><br><br>
+				</td>
+			</tr>
+		<% end %>
+	<% end %>
+</table>
+

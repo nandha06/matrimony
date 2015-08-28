@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  eating: 1
+  drinking: 1
+  smoking: 1
+
+two:
+  eating: 1
+  drinking: 1
+  smoking: 1
