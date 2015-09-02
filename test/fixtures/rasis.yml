@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  nakshatra_id: MyString
+  : 1
+  rasi_name: MyString
+  : MyString
+
+two:
+  nakshatra_id: MyString
+  : 1
+  rasi_name: MyString
+  : MyString

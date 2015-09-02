@@ -1,0 +1,73 @@
+<%= link_to "HOME", options_path %>
+<h1>Edit Profile</h1>
+<%= form_for @user, :url => {:action => "update"} do |f| %>
+
+<%= hidden_field_tag :step, "3" %>
+<table>
+		<tr> <td colspan="2"> <%= current_user.email %></td></tr>
+		<%= f.fields_for :userastro do |a| %>
+		
+			<tr>
+				<td> <%= a.label :Gothram %> </td>
+				<td> <%= a.select(:gothram_id, options_from_collection_for_select(Gothram.all, 'id', 'gothram_name', a.object.gothram_id)) %>
+			</tr>
+
+			<tr>
+				<td> <%= a.label :Nakshatram %> </td>
+				<td> <%= a.select(:nakshatra_id, options_from_collection_for_select(Nakshatra.all, 'id', 'nakshatra_name', a.object.nakshatra_id)) %>
+			</tr>
+
+			<tr>
+				<td> <%= a.label :Rasi %> </td>
+				<td> <%= a.select(:rasi_id, options_from_collection_for_select(Rasi.all, 'id', 'rasi_name', a.object.rasi_id)) %>
+			</tr>
+		<% end %>
+		<tr><td colspan="2"><h4>Education/Career Details</h4></td></tr>
+		<%= f.fields_for :user_qualification do |q| %>
+		
+			<tr>
+				<td> <%= q.label :Education_Level %> </td>
+				<td> <%= q.select(:education_level_id, options_from_collection_for_select(EducationLevel.all, 'id', 'level_name', q.object.education_level_id)) %>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= q.label :Education_Field %> </td>
+				<td> <%= q.select(:education_field_id, options_from_collection_for_select(EducationField.all, 'id', 'field_name', q.object.education_field_id)) %>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= q.label :Course_Name %> </td>
+				<td> <%= q.select(:education_id, options_from_collection_for_select(Education.all, 'id', 'course_name', q.object.education_id)) %>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= q.label :Working_With %> </td>
+				<td> <%= q.radio_button(:working_with, "Private Company") %>
+					<%= q.label(:working_with, "Private Company") %>
+				 	<%= q.radio_button(:working_with, "MNC") %>
+					<%= q.label(:working_with, "MNC") %>
+					<%= q.radio_button(:working_with, "Government") %>
+					<%= q.label(:working_with, "Government") %>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= q.label :Woring_As %> </td>
+				<td> <%= q.select(:occupation_id, options_from_collection_for_select(Occupation.all, 'id', 'occ_name', q.object.occupation_id)) %>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= q.label :Annual_Income %> </td>
+				<td> <%= q.select(:annual_income_id, options_from_collection_for_select(AnnualIncome.all, 'id', 'income_type', q.object.annual_income_id)) %>
+				</td>
+			</tr>
+		<% end %>
+
+		<tr><td><%= f.submit :"Continue" %></td></tr>
+</table>
+
+<% end %>

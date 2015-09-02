@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -6,6 +7,13 @@ class User < ActiveRecord::Base
   belongs_to :religion
   belongs_to :caste
   belongs_to :language
+  has_one :address
+  has_one :physicaldetail
+  has_one :userastro
+  has_one :user_qualification
+  accepts_nested_attributes_for :address, :physicaldetail, :userastro, :user_qualification
+
+ 
   #attr_accessible :user_name, :age, :email, :phone_no
   
   def self.search(age_from, age_to, gender)

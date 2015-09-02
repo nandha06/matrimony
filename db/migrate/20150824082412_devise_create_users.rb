@@ -21,6 +21,7 @@ class DeviseCreateUsers < ActiveRecord::Migration
 
 
       t.string :user_name
+      t.integer :profile_type_id
       t.string :date_of_birth
       t.string :gender
       t.integer :age
@@ -28,7 +29,10 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.integer :caste_id
       t.integer :mother_tongue_id
       t.string :phone_no
-      t.integer :marital_status
+      t.string :marital_status_id
+      t.string :description
+      t.string :disability
+      
              
       
 

@@ -1,0 +1,79 @@
+<%= form_for @user, :url => {:action => "update"} do |f| %>
+<%= hidden_field_tag :step, "1" %>
+	<table>
+		<tr> <td colspan="2"> <%= current_user.email %></td></tr>
+		<tr>
+			<td> <%= f.label :Name %> </td>
+			<td> <%= f.text_field :user_name, :required => true %></td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Gender %> </td>
+			<td> <%= f.radio_button(:gender, "male") %>
+				<%= f.label(:gender_male, "Male") %>
+				<%= f.radio_button(:gender, "female") %>
+				<%= f.label(:gender_female, "Female") %>
+			</td>
+		</tr>
+		
+		<tr>
+			<td> <%= f.label :Date_Of_Birth %></td>
+			<td> <%= f.text_field :date_of_birth, :required => true %>
+			</td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Age %></td>
+			<td> <%= f.text_field :age, :required => true %></td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Mobile_Number %></td>
+			<td> <%= f.text_field :phone_no, :required => true %></td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Religion %></td>
+			<td> <%= f.select(:religion_id, options_from_collection_for_select(Religion.all, 'id', 'rel_name', f.object.religion_id)) %>
+			</td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Caste %></td>
+			<td> <%= f.select(:caste_id, options_from_collection_for_select(Caste.all, 'id', 'caste_name', f.object.caste_id)) %>
+				
+			</td>
+		</tr>
+
+		<tr>
+			<td> <%= f.label :Mother_tongue %></td>
+			<td> <%= f.select(:mother_tongue_id, options_from_collection_for_select(Language.all, 'id', 'lang_name', f.object.mother_tongue_id)) %>
+				
+			</td>
+		</tr>
+
+		<%= f.fields_for :address do |add| %>
+			<tr>
+				<td> <%= add.label :Country_Living_in %></td>
+				<td> <%= add.select(:country_id, options_from_collection_for_select(Country.all, 'id', 'country_name', add.object.country_id)) %>
+				
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= add.label :State_Living_in %></td>
+				<td> <%= add.select(:state_id, options_from_collection_for_select(State.all, 'id', 'state_name', add.object.state_id)) %>
+				
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= add.label :City_Living_in %></td>
+				<td> <%= add.select(:city_id, options_from_collection_for_select(City.all, 'id', 'city_name', add.object.city_id)) %>
+				
+				</td>
+			</tr>
+		<% end %>
+	</table>
+<%= f.submit :"Continue" %>
+<% end %>

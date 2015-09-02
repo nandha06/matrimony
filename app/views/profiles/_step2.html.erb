@@ -1,0 +1,98 @@
+<%= link_to "HOME", options_path %>
+<h1>Edit Profile</h1>
+<%= form_for @user, :url => {:action => "update"} do |f| %>
+
+
+<%= hidden_field_tag :step, "2" %>
+	<table>
+		<tr> <td colspan="2"> <%= current_user.email %></td></tr>
+		<%= f.fields_for :physicaldetail do |phy| %>
+		
+			<tr>
+				<td> <%= phy.label :Height %> </td>
+				<td> <%= phy.text_field :height, :required => true %></td>
+			</tr>
+
+			<tr>
+				<td> <%= phy.label :Weight %> </td>
+				<td> <%= phy.text_field :weight, :required => true %></td>
+			</tr>
+
+			<tr>
+				<td> <%= phy.label :Skin_tone %> </td>
+				<td> <%= phy.radio_button(:skin_tone, "Very Fair") %>
+					<%= phy.label(:skin_tone_veryfair, "Very Fair") %>
+				 	<%= phy.radio_button(:skin_tone, "Fair") %>
+					<%= phy.label(:skin_tone_fair, "Fair") %>
+				 	<%= phy.radio_button(:skin_tone, "Wheatish") %>
+					<%= phy.label(:skin_tone_wheatish, "Wheatish") %>
+				 	<%= phy.radio_button(:skin_tone, "Dark") %>
+					<%= phy.label(:skin_tone_dark, "Dark") %>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= phy.label :Body_Type %> </td>
+				<td> <%= phy.radio_button(:body_type, "Slim") %>
+					<%= phy.label(:body_type_slim, "Slim") %>
+					<%= phy.radio_button(:body_type, "Athletic") %>
+					<%= phy.label(:body_type_athletic, "Athletic") %>
+					<%= phy.radio_button(:body_type, "Average") %>
+					<%= phy.label(:body_type_average, "Average") %>
+					<%= phy.radio_button(:body_type, "Heavy") %>
+					<%= phy.label(:body_type_heavy, "Heavy") %>	
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= phy.label :Hair_Color %> </td>
+				<td> <%= phy.radio_button(:hair_color, "Brownish") %>
+					<%= phy.label(:hair_color_brownish, "Brownish") %>
+					<%= phy.radio_button(:hair_color, "Whitish") %>
+					<%= phy.label(:hair_color_whitish, "Whitish") %>
+					<%= phy.radio_button(:hair_color, "Black") %>
+					<%= phy.label(:hair_color_whitish, "Black") %>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= phy.label :Eye_Color %> </td>
+				<td> <%= phy.radio_button(:eye_color, "Normal") %>
+					<%= phy.label(:eye_color_normal, "Normal") %>
+					<%= phy.radio_button(:eye_color, "Blue") %>
+					<%= phy.label(:eye_color_whitish, "Blue") %> 
+					<%= phy.radio_button(:eye_color, "Brownish") %>
+					<%= phy.label(:eye_color_brownish, "Brownish") %>
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= phy.label :Physical_Status %> </td>
+				<td> <%= phy.radio_button(:physical_status, "Normal") %>
+					<%= phy.label(:physical_status_normal, "Normal") %>
+					<%= phy.radio_button(:physical_status, "Physically Challenged") %>
+					<%= phy.label(:physical_status_chalanged, "Physically Challenged") %> 
+				</td>
+			</tr>
+
+			<tr>
+				<td> <%= phy.label :Health_Condition %> </td>
+				<td> <%= phy.radio_button(:health_condition, "Normal") %>
+					<%= phy.label(:health_condition_np, "Normal") %>
+					<%= phy.radio_button(:health_condition, "Low BP") %>
+					<%= phy.label(:health_condition, "Low BP") %> 
+					<%= phy.radio_button(:health_condition, "High BP") %>
+					<%= phy.label(:health_condition, "High BP") %> 
+					<%= phy.radio_button(:health_condition, "Heart Ailments") %>
+					<%= phy.label(:health_condition, "Heart Ailments") %>
+					<%= phy.radio_button(:health_condition, "Diabetes") %>
+					<%= phy.label(:health_condition, "Diabetes") %>
+					<%= phy.radio_button(:health_condition, "HIV Positive") %>
+					<%= phy.label(:health_condition, "HIV Positive") %>
+				</td>
+			</tr>
+		
+		<% end %>
+		<tr><td><%= f.submit :"Continue" %></td></tr>
+	</table>	
+<% end %>
