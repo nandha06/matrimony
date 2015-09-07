@@ -65,11 +65,25 @@ class ProfilesController < ApplicationController
 
     def filter
 
+    	if (params[:religion] == "")
+    		@user = User.joins(:address, :user_qualification).where("users.id = addresses.id and 
+    			users.id = user_qualifications.user_id and users.caste_id = ?
+				and users.mother_tongue_id = ? and addresses.country_id = ? and addresses.state_id = ? and 
+				user_qualifications.education_level_id = ? and user_qualifications.occupation_id = ? and 
+				user_qualifications.working_with = ? and user_qualifications.annual_income_id = ?", params[:caste], 
+				params[:mt].to_i, params[:country].to_i, params[:state].to_i, params[:edu_level].to_i, params[:profession].to_i,
+				params[:work_with], params[:income].to_i)
+    	else
     	#@user = User.where("religion_id = ? and caste_id = ?", params[:religion].to_i, params[:caste].to_i)
-    	@user = User.joins(:address).where("users.id = addresses.id and users.religion_id = ? and users.caste_id = ?
-				and users.mother_tongue_id = ? and addresses.country_id = ?", params[:religion].to_i, params[:caste], 
-				params[:mt].to_i, params[:country].to_i)
-    	
+    		@user = User.joins(:address, :user_qualification).where("users.id = addresses.id and 
+    			users.id = user_qualifications.user_id and users.religion_id = ? and users.caste_id = ?
+				and users.mother_tongue_id = ? and addresses.country_id = ? and addresses.state_id = ? and 
+				user_qualifications.education_level_id = ? and user_qualifications.occupation_id = ? and 
+				user_qualifications.working_with = ? and user_qualifications.annual_income_id = ?", params[:religion].to_i, params[:caste], 
+				params[:mt].to_i, params[:country].to_i, params[:state].to_i, params[:edu_level].to_i, params[:profession].to_i,
+				params[:work_with], params[:income].to_i)
+    	end
+    
     	render :json => @user
 	end
 
