@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resources :options
   resources :profiles do
     get '/search', :to => 'profiles#search'
-    get '/edit1', :to => 'profiles#edit1'
+    get '/filter', :to => 'profiles#filter', on: :collection
   end
   root to: "home#index"
   

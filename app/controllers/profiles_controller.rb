@@ -1,9 +1,14 @@
 class ProfilesController < ApplicationController
 	def index
+		
 		if (params[:age_to].to_i < params[:age_from].to_i)
 			redirect_to profile_search_path(current_user.id), :notice => "Invalid Age"
 		else
-			@user = User.search(params[:age_from], params[:age_to], params[:gender])
+			@user = User.joins(:address).where("users.id = addresses.id and addresses.country_id = ?
+				and users.age >= ? and users.age <= ? and users.gender = ? and users.religion_id = ? 
+				and users.mother_tongue_id = ? and addresses.state_id = ?", params[:country].to_i, params[:age_from].to_i,
+				params[:age_to].to_i, params[:gender], params[:religion_id].to_i, params[:mt].to_i, params[:state].to_i)
+			#respond_to :html, :json
 		end
 	end
 
@@ -13,6 +18,7 @@ class ProfilesController < ApplicationController
 		@user.build_physicaldetail
 		@user.build_userastro
 		@user.build_user_qualification
+		@user.build_user_partner
     end
 
 	def edit
@@ -21,6 +27,7 @@ class ProfilesController < ApplicationController
 		@user.build_physicaldetail if @user.physicaldetail.nil?
 		@user.build_userastro if @user.userastro.nil?
 		@user.build_user_qualification if @user.user_qualification.nil?
+		@user.build_user_partner if @user.user_partner.nil?
 	end
 
 	def create
@@ -36,6 +43,7 @@ class ProfilesController < ApplicationController
 		@user.build_physicaldetail if @user.physicaldetail.nil?
 		@user.build_userastro if @user.userastro.nil?
 		@user.build_user_qualification if @user.user_qualification.nil?
+		@user.build_user_partner if @user.user_partner.nil?
 		@user.update(user_params)
 		@step = params[:step].to_s
 		puts "#{@step}"*50
@@ -47,18 +55,46 @@ class ProfilesController < ApplicationController
 			#redirect_to :controller=>'profiles', :action => 'edit'
 			#redirect_to profile_edit1_path(current_user.id)
 		elsif @step == "3"
+			render "profiles/_step4"
+		elsif @step == "4"
 			redirect_to :controller=>'options', :action => 'index'
 		else
 			render "edit"
 		end
     end
 
+    def filter
+
+    	#@user = User.where("religion_id = ? and caste_id = ?", params[:religion].to_i, params[:caste].to_i)
+    	@user = User.joins(:address).where("users.id = addresses.id and users.religion_id = ? and users.caste_id = ?
+				and users.mother_tongue_id = ? and addresses.country_id = ?", params[:religion].to_i, params[:caste], 
+				params[:mt].to_i, params[:country].to_i)
+    	
+    	render :json => @user
+	end
+
     def search 
-    	@user_search = User.search(params[:age_from], params[:age_to], params[:gender])
+    	@user = User.joins(:address).where("users.id = addresses.id and addresses.country_id = ?
+				and users.age >= ? and users.age <= ? and users.gender = ? and users.religion_id = ? 
+				and users.mother_tongue_id = ? and addresses.state_id = ?", params[:country].to_i, params[:age_from].to_i,
+				params[:age_to].to_i, params[:gender], params[:religion_id].to_i, params[:mt].to_i, params[:state].to_i)
+    	#@user_search = User.search(params[:age_from], params[:age_to], params[:gender], params[:religion_id], params[:mt],
+    		#params[:country_id], params[:state_id])
     end
 
     def show
-    	@user = User.search(params[:age_from], params[:age_to], params[:gender])
+    	@user = User.where("religion_id = ?", params[:religion].to_i)
+    	@rel = params[:religion]
+    	puts "#{@rel}"*50
+		respond_to do |f|
+			if @user
+				format.html { render :index }
+			else 
+				puts "#{@rel}"*50
+				
+			end
+		end#age_from = params['age_from'].to_i
+    	#@user = User.where("age >= ?", age_from)
     end
 end
 
@@ -69,7 +105,8 @@ private
 		 address_attributes: [:id, :country_id, :state_id, :city_id, :user_id], 
 		 physicaldetail_attributes: [:id, :height, :weight, :body_type, :user_id, :skin_tone, :hair_color, :eye_color, :physical_status, :health_condition],
 		 userastro_attributes: [:id, :user_id, :rasi_id, :nakshatra_id, :gothram_id],
-		 user_qualification: [:id, :user_id, :education_id, :education_field_id, :education_level_id, :working_with, :annual_income_id, :occupation_id])
+		 user_qualification_attributes: [:id, :user_id, :education_id, :education_field_id, :education_level_id, :working_with, :annual_income_id, :occupation_id],
+		 user_partner_attributes: [:id, :user_id, :age, :height, :marital_status_id, :religion_id, :caste_id, :gothram_id, :mother_tongue_id])
 	end
 
 	

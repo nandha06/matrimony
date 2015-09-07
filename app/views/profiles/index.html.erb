@@ -1,11 +1,79 @@
 <%= link_to "BACK", profile_search_path(current_user.id) %>
 <%= link_to "HOME", options_path %>
-<h1>Profiles</h1>
+<script type="text/javascript">
+  $(function(){
+  	$(document).on('change', function(){
+  		
+  		var rel = document.getElementById("religion");
+		var rel_val = rel.options[rel.selectedIndex].value;
+		var caste = document.getElementById("caste");
+		var caste_val = caste.options[caste.selectedIndex].value;
+		var mt = document.getElementById("mt");
+		var mt_val = mt.options[mt.selectedIndex].value;
+		var country = document.getElementById("country");
+		var country_val = country.options[country.selectedIndex].value;
+
+
+		$.ajax({
+			url: '/profiles/filter',
+    		type:'GET', 
+    		
+  			data: {religion: rel_val, caste: caste_val, mt: mt_val, country: country_val},
+  			success: function (data) {
+  				$('#result').html(data);
+          		$.each(data, function(i){
+          			
+          			var row1 = "<tr><td><b>Name </b></td><td> : " + data[i].user_name + "</td></tr>";
+  					var row2 = "<tr><td><b>Age </b></td><td> : " + data[i].age + "</td></tr>";
+  					var row3 = "<tr><td><b>Date Of Birth </b></td><td> : " + data[i].date_of_birth + "</td></tr>";
+  					var row4 = "<tr><td><b>Email </b><br><br></td><td> : " + data[i].email + "<br><br></td></tr>";
+  					$('#result').append(row1);
+  					$('#result').append(row2);
+  					$('#result').append(row3);
+  					$('#result').append(row4);
+  				
+          		});
+  			},
+  			error: function(data){
+				alert("Error")
+			}
+  		});
+
+		
+		
+  	});
+  });
+</script>
+
+<h1>Matches</h1>
+<hr>
 <table>
+	<tr>
+		<td> <%= label_tag :Religion %> : 
+		 <%= select_tag "religion", options_from_collection_for_select(Religion.all, 'id', 'rel_name') %>
+		</td>
+
+		<td> <%= label_tag :Caste %> : 
+		 <%= select_tag "caste", options_from_collection_for_select(Caste.all, 'id', 'caste_name') %>
+		</td>
+
+		<td> <%= label_tag :Mother_Tongue %> : 
+		 <%= select_tag "mt", options_from_collection_for_select(Language.all, 'id', 'lang_name') %>
+		</td>
+
+		<td> <%= label_tag :Country_Living_In %> : 
+		 <%= select_tag "country", options_from_collection_for_select(Country.all, 'id', 'country_name') %>
+		</td>
+	</tr>
+</table>
+<hr>
+
+<table id = "result">
 	<% if (@user.empty?) %>
 		<tr><td><h3>No results found...</h3></td>
 		</tr>
 	<% else %>
+			
 		<% @user.each do |result| %>
 			<tr>
 				<td><b>Name</b></td> 
@@ -19,14 +87,7 @@
 				<td><b>Date Of Birth</b></td>
 				<td> : <%= result.date_of_birth %></td>
 			</tr>
-			<tr>
-				<td><b>Religion</b></td>
-				<td> : <%= result.religion_id %>
-			</td>
-			<tr>
-				<td><b>Caste</b></td>
-				<td> : <%= result.caste_id %>
-			</td>
+			
 			<tr>
 				<td><b>Email</b><br><br></td>
 				<td> : <%= result.email %>
@@ -36,4 +97,4 @@
 		<% end %>
 	<% end %>
 </table>
-
+</div>
