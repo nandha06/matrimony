@@ -64,27 +64,45 @@ class ProfilesController < ApplicationController
     end
 
     def filter
+    	exec_qry = ""
+    		if params[:religion].present?
+    			exec_qry = exec_qry + " and " + religion_param
+    		end
 
-    	if (params[:religion] == "")
+    		if params[:caste].present?
+    			exec_qry = exec_qry + " and " + caste_param
+    		end
+
+    		if params[:mt].present?
+    			exec_qry = exec_qry + " and " + mt_param
+    		end
+
+    		if params[:country].present?
+    			exec_qry = exec_qry + " and " + country_param
+    		end
+
+    		if params[:state].present?
+    			exec_qry = exec_qry + " and " + state_param
+    		end
+
+    		if params[:edu_level].present?
+    			exec_qry = exec_qry + " and " + edu_level_param
+    		end
+
+    		if params[:work_with].present?
+    			exec_qry = exec_qry + " and " + work_with_param
+    		end
+
+    		if params[:profession].present?
+    			exec_qry = exec_qry + " and " + profession_param
+    		end
+
+    		if params[:income].present?
+    			exec_qry = exec_qry + " and " + income_param
+    		end	
     		@user = User.joins(:address, :user_qualification).where("users.id = addresses.id and 
-    			users.id = user_qualifications.user_id and users.caste_id = ?
-				and users.mother_tongue_id = ? and addresses.country_id = ? and addresses.state_id = ? and 
-				user_qualifications.education_level_id = ? and user_qualifications.occupation_id = ? and 
-				user_qualifications.working_with = ? and user_qualifications.annual_income_id = ?", params[:caste], 
-				params[:mt].to_i, params[:country].to_i, params[:state].to_i, params[:edu_level].to_i, params[:profession].to_i,
-				params[:work_with], params[:income].to_i)
-    	else
-    	#@user = User.where("religion_id = ? and caste_id = ?", params[:religion].to_i, params[:caste].to_i)
-    		@user = User.joins(:address, :user_qualification).where("users.id = addresses.id and 
-    			users.id = user_qualifications.user_id and users.religion_id = ? and users.caste_id = ?
-				and users.mother_tongue_id = ? and addresses.country_id = ? and addresses.state_id = ? and 
-				user_qualifications.education_level_id = ? and user_qualifications.occupation_id = ? and 
-				user_qualifications.working_with = ? and user_qualifications.annual_income_id = ?", params[:religion].to_i, params[:caste], 
-				params[:mt].to_i, params[:country].to_i, params[:state].to_i, params[:edu_level].to_i, params[:profession].to_i,
-				params[:work_with], params[:income].to_i)
-    	end
-    
-    	render :json => @user
+    					users.id = user_qualifications.user_id" + exec_qry)
+    		render :json => @user
 	end
 
     def search 
@@ -97,19 +115,116 @@ class ProfilesController < ApplicationController
     end
 
     def show
-    	@user = User.where("religion_id = ?", params[:religion].to_i)
-    	@rel = params[:religion]
-    	puts "#{@rel}"*50
-		respond_to do |f|
-			if @user
-				format.html { render :index }
-			else 
-				puts "#{@rel}"*50
-				
-			end
-		end#age_from = params['age_from'].to_i
-    	#@user = User.where("age >= ?", age_from)
+    	
     end
+
+    def religion_param
+    		religion ="("
+    	params[:religion].each do |i|
+    		if i == params[:religion].last
+    			religion = religion + "users.religion_id = " + i + ")"
+    		else
+				religion = religion + "users.religion_id = " + i + " or "
+			end
+    	end
+    	return religion
+    end
+
+    def caste_param
+    		caste ="("
+    	params[:caste].each do |i|
+    		if i == params[:caste].last
+    			caste = caste + "users.caste_id = " + i + ")"
+    		else
+				caste = caste + "users.caste_id = " + i + " or "
+			end
+    	end
+    	return caste
+    end
+
+    def mt_param
+    		mt ="("
+    	params[:mt].each do |i|
+    		if i == params[:mt].last
+    			mt = mt + "users.mother_tongue_id = " + i + ")"
+    		else
+				mt = mt + "users.mother_tongue_id = " + i + " or "
+			end
+    	end
+    	return mt
+    end
+
+    def country_param
+    		country ="("
+    	params[:country].each do |i|
+    		if i == params[:country].last
+    			country = country + "addresses.country_id = " + i + ")"
+    		else
+				country = country + "addresses.country_id = " + i + " or "
+			end
+    	end
+    	return country
+    end
+
+    def state_param
+    		state ="("
+    	params[:state].each do |i|
+    		if i == params[:state].last
+    			state = state + "addresses.state_id = " + i + ")"
+    		else
+				state = state + "addresses.state_id = " + i + " or "
+			end
+    	end
+    	return state
+    end
+
+	def edu_level_param
+    		edu_level ="("
+    	params[:edu_level].each do |i|
+    		if i == params[:edu_level].last
+    			edu_level = edu_level + "user_qualifications.education_level_id = " + i + ")"
+    		else
+				edu_level = edu_level + "user_qualifications.education_level_id = " + i + " or "
+			end
+    	end
+    	return edu_level
+    end
+
+    def profession_param
+    		profession ="("
+    	params[:profession].each do |i|
+    		if i == params[:profession].last
+    			profession = profession + "user_qualifications.occupation_id = " + i + ")"
+    		else
+				profession = profession + "user_qualifications.occupation_id = " + i + " or "
+			end
+    	end
+    	return profession
+    end
+
+    def work_with_param
+    		work_with ="("
+    	params[:work_with].each do |i|
+    		if i == params[:work_with].last
+    			work_with = work_with + "user_qualifications.working_with = " + i + ")"
+    		else
+				work_with = work_with + "user_qualifications.working_with = " + i + " or "
+			end
+    	end
+    	return work_with
+    end
+
+    def income_param
+    		income ="("
+    	params[:income].each do |i|
+    		if i == params[:income].last
+    			income = income + "user_qualifications.annual_income_id = " + i + ")"
+    		else
+				income = income + "user_qualifications.annual_income_id = " + i + " or "
+			end
+    	end
+    	return income
+    end    
 end
 
 private 
